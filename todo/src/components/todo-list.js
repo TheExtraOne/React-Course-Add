@@ -1,20 +1,18 @@
 import React from 'react';
 
 import ToDoListItem from './todo-list-item';
+import './todo-list.css';
 
 const ToDoList = ({todos}) => {
   const elements = todos.map((item) => {
+    const {key, ...restItemProps} = item;
     return (
-      <li>
-        <ToDoListItem
-        //label={item.label} если имя свойства компонента совпадает с именами свойств объекта, то ожно записать так:
-        //<ToDoListItem {...item}/>    Спред-оператор для объекта
-          label={item.label}
-          important={item.important}/>
+      <li key={key} className='list-group-item'>
+        <ToDoListItem {...restItemProps}/>
       </li>);
   });
   return (
-    <ul>{elements}</ul>
+    <ul className='list-group todo-list'>{elements}</ul>
   )
 }
 
