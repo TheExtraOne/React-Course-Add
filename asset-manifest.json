@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/React-Course-Udemy/static/css/main.620121e3.css",
+    "main.js": "/React-Course-Udemy/static/js/main.aac90bcc.js",
+    "index.html": "/React-Course-Udemy/index.html",
+    "main.620121e3.css.map": "/React-Course-Udemy/static/css/main.620121e3.css.map",
+    "main.aac90bcc.js.map": "/React-Course-Udemy/static/js/main.aac90bcc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.620121e3.css",
+    "static/js/main.aac90bcc.js"
+  ]
+}
