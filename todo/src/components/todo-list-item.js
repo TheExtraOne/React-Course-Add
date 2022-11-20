@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './todo-list-item.css';
+import {todoEvents} from './todo-events';
 
 export default class ToDoListItem extends React.Component {
 
@@ -17,6 +18,10 @@ export default class ToDoListItem extends React.Component {
 		this.setState( (prev) => {return {important: !prev.important}} );
 	};
 
+	delBtnClicked = () => {
+		todoEvents.emit('EDeleteClicked', this.props.code);
+	}
+
 	render() {
 		const {done, important} = this.state;
 		const {label} = this.props;
@@ -28,7 +33,6 @@ export default class ToDoListItem extends React.Component {
 			className += ' important';
 		}
 
-	
 		return (
 			<span className={className}>
 				<span
@@ -44,7 +48,8 @@ export default class ToDoListItem extends React.Component {
 				</button>
 	
 				<button type="button"
-								className="btn btn-outline-danger btn-sm">
+								className="btn btn-outline-danger btn-sm"
+								onClick={this.delBtnClicked}>
 					<i className="bi bi-trash" />
 				</button>
 			</span>

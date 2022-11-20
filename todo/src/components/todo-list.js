@@ -5,10 +5,10 @@ import './todo-list.css';
 
 const ToDoList = ({todos}) => {
   const elements = todos.map((item) => {
-    const {key, ...restItemProps} = item;
+    //const {key, ...restItemProps} = item;
     return (
-      <li key={key} className='list-group-item'>
-        <ToDoListItem {...restItemProps}/>
+      <li key={item.key} className='list-group-item'>
+        <ToDoListItem label={item.label} code={item.key}/>
       </li>);
   });
   return (
