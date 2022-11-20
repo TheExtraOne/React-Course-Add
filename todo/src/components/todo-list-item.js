@@ -10,7 +10,6 @@ export default class ToDoListItem extends React.Component {
 	};
 
 	markImportant = () => {
-		//this.setState( (prev) => {return {important: !prev.important}} );
 		todoEvents.emit('EMarkImportant', this.props.todo.key);
 	};
 

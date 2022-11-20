@@ -4,6 +4,7 @@ import AppHeader from './app-header';
 import SearchPanel from './search-pannel';
 import TodoList from './todo-list';
 import ItemStatusFilter from './item-status-filter';
+import AddItemForm from './add-item-form'
 import './app.css';
 import {todoEvents} from './todo-events';
 
@@ -42,6 +43,10 @@ export default class App extends React.Component {
     this.setState({todoData: newTodo});
   };
 
+  addNewItem = (str) => {
+    const newList = [...this.state.todoData, this.createItem(str)];
+    this.setState({todoData: newList});
+  }
   deleteItem = (id) => {
     let newTodo = [...this.state.todoData];
     this.setState({todoData: newTodo.filter(item => item.key !== id)})
@@ -59,12 +64,14 @@ export default class App extends React.Component {
     todoEvents.addListener('EDeleteClicked', this.deleteItem);
     todoEvents.addListener('ECrossOutItem', this.crossOutItem);
     todoEvents.addListener('EMarkImportant', this.markImportant);
+    todoEvents.addListener('EAddItemClicked', this.addNewItem);
   };
 
   componentWillUnmount = () => {
     todoEvents.removeListener('EDeleteClicked', this.deleteItem);
     todoEvents.removeListener('ECrossOutItem', this.crossOutItem);
     todoEvents.removeListener('EMarkImportant', this.markImportant);
+    todoEvents.removeListener('EAddItemClicked', this.addNewItem);
   };
 
   render() {
@@ -77,8 +84,8 @@ export default class App extends React.Component {
           <SearchPanel />
           <ItemStatusFilter />
         </div>
-  
         <TodoList todos={this.state.todoData} />
+        <AddItemForm />
       </div>
     );
   }
