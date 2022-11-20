@@ -2,32 +2,79 @@ import React from 'react';
 
 import './todo-list-item.css';
 
-//деструктуризующее присваивание props.label === {label}
-const ToDoListItem = ({label, important = false}) => {
-    const style = {
-        color: important ? 'steelblue' : 'black',
-        fontWeight: important ? 'bold' : 'normal'
-    };
+export default class ToDoListItem extends React.Component {
 
-    return (
-        <span className="todo-list-item">
-            <span
-                className="todo-list-item-label"
-                style={style}>
-                {label}
-            </span>
+	state = {
+		done: false,
+		important: false,
+	};
 
-            <button type="button"
-                    className="btn btn-outline-success btn-sm">
-                <i className="bi bi-bell" />
-            </button>
+	crossOutItem = () => {
+		this.setState( (prev) => {return {done: !prev.done}} );
+	};
 
-            <button type="button"
-                    className="btn btn-outline-danger btn-sm">
-                <i className="bi bi-trash" />
-            </button>
-        </span>
-    )
+	markImportant = () => {
+		this.setState( (prev) => {return {important: !prev.important}} );
+	};
+
+	render() {
+		const {done, important} = this.state;
+		const {label} = this.props;
+		let className = 'todo-list-item';
+		if (done) {
+			className += ' done';
+		}
+		if (important) {
+			className += ' important';
+		}
+
+	
+		return (
+			<span className={className}>
+				<span
+					className="todo-list-item-label"
+					onClick={this.crossOutItem}>
+					{label}
+				</span>
+	
+				<button type="button"
+								className="btn btn-outline-success btn-sm"
+								onClick={this.markImportant}>
+					<i className="bi bi-bell" />
+				</button>
+	
+				<button type="button"
+								className="btn btn-outline-danger btn-sm">
+					<i className="bi bi-trash" />
+				</button>
+			</span>
+		)
+	}
 }
+// const ToDoListItemFunc = ({label, important = false}) => {
+// 	const style = {
+// 		color: important ? 'steelblue' : 'black',
+// 		fontWeight: important ? 'bold' : 'normal'
+// 	};
 
-export default ToDoListItem;
+// 	return (
+// 		<span className="todo-list-item">
+// 			<span
+// 				className="todo-list-item-label"
+// 				style={style}>
+// 				{label}
+// 			</span>
+
+// 			<button type="button"
+// 							className="btn btn-outline-success btn-sm">
+// 				<i className="bi bi-bell" />
+// 			</button>
+
+// 			<button type="button"
+// 							className="btn btn-outline-danger btn-sm">
+// 				<i className="bi bi-trash" />
+// 			</button>
+// 		</span>
+// 	)
+// }
+
