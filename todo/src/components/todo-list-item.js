@@ -5,26 +5,21 @@ import {todoEvents} from './todo-events';
 
 export default class ToDoListItem extends React.Component {
 
-	state = {
-		done: false,
-		important: false,
-	};
-
 	crossOutItem = () => {
-		this.setState( (prev) => {return {done: !prev.done}} );
+		todoEvents.emit('ECrossOutItem', this.props.todo.key);
 	};
 
 	markImportant = () => {
-		this.setState( (prev) => {return {important: !prev.important}} );
+		//this.setState( (prev) => {return {important: !prev.important}} );
+		todoEvents.emit('EMarkImportant', this.props.todo.key);
 	};
 
 	delBtnClicked = () => {
-		todoEvents.emit('EDeleteClicked', this.props.code);
+		todoEvents.emit('EDeleteClicked', this.props.todo.key);
 	}
 
 	render() {
-		const {done, important} = this.state;
-		const {label} = this.props;
+		const {label, important, done} = this.props.todo;
 		let className = 'todo-list-item';
 		if (done) {
 			className += ' done';
@@ -56,30 +51,5 @@ export default class ToDoListItem extends React.Component {
 		)
 	}
 }
-// const ToDoListItemFunc = ({label, important = false}) => {
-// 	const style = {
-// 		color: important ? 'steelblue' : 'black',
-// 		fontWeight: important ? 'bold' : 'normal'
-// 	};
 
-// 	return (
-// 		<span className="todo-list-item">
-// 			<span
-// 				className="todo-list-item-label"
-// 				style={style}>
-// 				{label}
-// 			</span>
-
-// 			<button type="button"
-// 							className="btn btn-outline-success btn-sm">
-// 				<i className="bi bi-bell" />
-// 			</button>
-
-// 			<button type="button"
-// 							className="btn btn-outline-danger btn-sm">
-// 				<i className="bi bi-trash" />
-// 			</button>
-// 		</span>
-// 	)
-// }
 
