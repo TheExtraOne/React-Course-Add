@@ -7,7 +7,7 @@ export default class SearchPannel extends React.Component {
   searchRef = React.createRef();
 
   beginSearch = () => {
-    todoEvents.emit('EBeginSearch', this.searchRef.current.value);
+    todoEvents.emit('EBeginSearch', this.searchRef.current.value.toLowerCase());
   };
 
   render () {

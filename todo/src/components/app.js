@@ -34,7 +34,7 @@ export default class App extends React.Component {
       done:false,
       key:this.maxId++,
     }
-  }
+  };
 
   toggleProp(id, arr, prop) {
     let newTodo = [...arr];
@@ -50,7 +50,8 @@ export default class App extends React.Component {
   addNewItem = (str) => {
     const newList = [...this.state.filteredData, this.createItem(str)];
     this.setState({filteredData: newList, todoData: newList});
-  }
+  };
+
   deleteItem = (id) => {
     let newTodo = [...this.state.todoData].filter(item => item.key !== id);
     this.setState({filteredData: newTodo, todoData: newTodo})
@@ -58,15 +59,15 @@ export default class App extends React.Component {
 
   crossOutItem = (id) => {
     this.toggleProp(id, this.state.filteredData, 'done');
-  }
+  };
 
   markImportant = (id) => {
     this.toggleProp(id, this.state.filteredData, 'important');
-  }
+  };
 
   beginSearch = (str) => {
-    this.setState({filteredData: [...this.state.todoData].filter((item) => item.label.includes(str))});
-  }
+    this.setState({filteredData: [...this.state.todoData].filter((item) => item.label.toLowerCase().includes(str))});
+  };
 
   filtrate = (str) => {
     if (str === 'All') {
@@ -81,7 +82,7 @@ export default class App extends React.Component {
       this.setState({filteredData: [...this.state.todoData].filter((item) => item.done)});
       return;
     }
-  }
+  };
 
   componentDidMount = () => {
     todoEvents.addListener('EDeleteClicked', this.deleteItem);
