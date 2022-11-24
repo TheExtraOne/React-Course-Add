@@ -20,6 +20,11 @@ export default class App extends React.Component {
       // {label:'Make awesome React app', important:true, done:false, key:2},
       // {label:'Have lunch', important:false, done:false, key:3}
     ],
+    filteredData: [
+      this.createItem('Drink Coffee'),
+      this.createItem('Make awesome React app'),
+      this.createItem('Have lunch'),
+    ],
   }
 
   createItem(label) {
@@ -39,25 +44,43 @@ export default class App extends React.Component {
         item[prop] = newProp;
       }
     });
-
     this.setState({todoData: newTodo});
   };
 
   addNewItem = (str) => {
-    const newList = [...this.state.todoData, this.createItem(str)];
-    this.setState({todoData: newList});
+    const newList = [...this.state.filteredData, this.createItem(str)];
+    this.setState({filteredData: newList, todoData: newList});
   }
   deleteItem = (id) => {
-    let newTodo = [...this.state.todoData];
-    this.setState({todoData: newTodo.filter(item => item.key !== id)})
+    let newTodo = [...this.state.todoData].filter(item => item.key !== id);
+    this.setState({filteredData: newTodo, todoData: newTodo})
   };
 
   crossOutItem = (id) => {
-    this.toggleProp(id, this.state.todoData, 'done');
+    this.toggleProp(id, this.state.filteredData, 'done');
   }
 
   markImportant = (id) => {
-    this.toggleProp(id, this.state.todoData, 'important');
+    this.toggleProp(id, this.state.filteredData, 'important');
+  }
+
+  beginSearch = (str) => {
+    this.setState({filteredData: [...this.state.todoData].filter((item) => item.label.includes(str))});
+  }
+
+  filtrate = (str) => {
+    if (str === 'All') {
+      this.setState({filteredData: [...this.state.todoData]});
+      return;
+    }
+    if (str === 'Active') {
+      this.setState({filteredData: [...this.state.todoData].filter((item) => !(item.done))});
+      return;
+    }
+    if (str === 'Done') {
+      this.setState({filteredData: [...this.state.todoData].filter((item) => item.done)});
+      return;
+    }
   }
 
   componentDidMount = () => {
@@ -65,6 +88,8 @@ export default class App extends React.Component {
     todoEvents.addListener('ECrossOutItem', this.crossOutItem);
     todoEvents.addListener('EMarkImportant', this.markImportant);
     todoEvents.addListener('EAddItemClicked', this.addNewItem);
+    todoEvents.addListener('EBeginSearch', this.beginSearch);
+    todoEvents.addListener('EFilterIsActive', this.filtrate);
   };
 
   componentWillUnmount = () => {
@@ -72,6 +97,8 @@ export default class App extends React.Component {
     todoEvents.removeListener('ECrossOutItem', this.crossOutItem);
     todoEvents.removeListener('EMarkImportant', this.markImportant);
     todoEvents.removeListener('EAddItemClicked', this.addNewItem);
+    todoEvents.removeListener('EBeginSearch', this.beginSearch);
+    todoEvents.removeListener('EFilterIsActive', this.filtrate);
   };
 
   render() {
@@ -84,7 +111,7 @@ export default class App extends React.Component {
           <SearchPanel />
           <ItemStatusFilter />
         </div>
-        <TodoList todos={this.state.todoData} />
+        <TodoList todos={this.state.filteredData} />
         <AddItemForm />
       </div>
     );
